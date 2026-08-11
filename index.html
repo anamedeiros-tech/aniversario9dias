@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estratégico - Abreu Motors | Campanha 9 Anos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        orange: {
+                            300: '#ff9e59',
+                            400: '#ff731a',
+                            500: '#ff5500',
+                            600: '#e64d00',
+                            700: '#cc4400'
+                        },
+                        brand: {
+                            orange: '#ff5500',
+                            orangeLight: '#ff731a',
+                            silver: '#e2e8f0',
+                            silverDark: '#94a3b8',
+                            dark: '#0a0a0c',
+                            card: '#121218',
+                            border: '#27272a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #08080a;
+            color: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #ff5500;
+        }
+        .glass-panel {
+            background: rgba(18, 18, 24, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .orange-glow {
+            box-shadow: 0 0 30px 4px rgba(255, 85, 0, 0.45);
+        }
+        .silver-glow {
+            box-shadow: 0 0 20px -3px rgba(226, 232, 240, 0.15);
+        }
+        .metallic-silver-text {
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .vibrant-orange-text {
+            color: #ff5500;
+            text-shadow: 0 0 12px rgba(255, 85, 0, 0.35);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Top Navigation Header -->
+    <header class="glass-panel sticky top-0 z-50 border-b border-zinc-800/80 px-4 lg:px-8 py-3 bg-black/90">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Brand & Title -->
+            <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+                <div class="flex items-center gap-3">
+                    <!-- Abreu Motors Silver/Black Logo Badge -->
+                    <a href="https://www.instagram.com/_abreumotors" target="_blank" title="Ver Instagram Abreu Motors" class="group relative flex items-center justify-center w-11 h-11 rounded-full bg-black border border-slate-300/40 shadow-lg silver-glow overflow-hidden transition-transform hover:scale-105">
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-tr from-zinc-950 via-zinc-800 to-black font-black text-slate-100 text-base tracking-wider border border-slate-400/30 rounded-full">
+                            <span class="metallic-silver-text font-black">AM</span>
+                        </div>
+                    </a>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 class="font-extrabold text-lg text-white leading-tight tracking-wide">ABREU MOTORS</h1>
+                            <span class="bg-zinc-800 text-slate-200 text-xs px-2.5 py-0.5 rounded-full font-bold border border-slate-400/40 shadow-sm">9 ANOS</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Plano Estratégico & Dashboard: <span class="text-orange-400 font-semibold">9 Anos, 9 Dias de Ofertas</span></p>
+                    </div>
+                </div>
+
+                <!-- G30 Creator Tag (Mobile - Orange Branding) -->
+                <div class="md:hidden flex items-center gap-2 bg-zinc-950 px-2.5 py-1 rounded-full border border-orange-500/40 shadow-sm">
+                    <span class="text-[10px] text-orange-400 font-bold uppercase tracking-wider">G30:</span>
+                    <img src="https://raw.githubusercontent.com/G30IA/calendarg30/7d28818d56a083747954bcda3210caabfe50a08f/logog30.png" alt="G30 Logo" class="h-4 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/80x30/0f172a/f97316?text=G30';">
+                </div>
+            </div>
+
+            <!-- Creator & Quick Metrics / Meta Status -->
+            <div class="flex items-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+                <!-- G30 Creator Branding Badge (Desktop - Vibrant Orange) -->
+                <div class="hidden md:flex items-center gap-2.5 bg-zinc-950 px-3.5 py-1.5 rounded-lg border border-orange-500/40 shadow-md orange-glow">
+                    <span class="text-[10px] uppercase font-extrabold text-orange-400 tracking-wider">Criado por</span>
+                    <img src="https://raw.githubusercontent.com/G30IA/calendarg30/7d28818d56a083747954bcda3210caabfe50a08f/logog30.png" alt="G30 Logo" class="h-5 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/100x35/0f172a/f97316?text=G30+PRO';">
+                </div>
+
+                <div class="bg-black/80 px-3 py-1.5 rounded-lg border border-zinc-800 text-center min-w-[90px]">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Duração</span>
+                    <span class="text-sm font-bold text-orange-400">9 Dias</span>
+                </div>
+                <div class="bg-black/80 px-3 py-1.5 rounded-lg border border-zinc-800 text-center min-w-[90px]">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Criativos</span>
+                    <span class="text-sm font-bold text-slate-100">5+ Vídeos</span>
+                </div>
+                <div class="bg-black/80 px-3 py-1.5 rounded-lg border border-zinc-800 text-center min-w-[90px]">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Antecedência</span>
+                    <span class="text-sm font-bold text-sky-400">10 Dias</span>
+                </div>
+                <div class="bg-black/80 px-3 py-1.5 rounded-lg border border-zinc-800 text-center min-w-[90px]">
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">SLA Resposta</span>
+                    <span class="text-sm font-bold text-emerald-400">&lt; 30 Seg</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-6">
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center gap-2 border-b border-zinc-800 overflow-x-auto pb-2 custom-scrollbar">
+            <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn px-4 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-2 bg-orange-500 text-slate-950 shadow-md">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Visão Geral & Pilares
+            </button>
+            <button onclick="switchTab('reels')" id="tab-reels" class="tab-btn px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-zinc-800">
+                <i data-lucide="video" class="w-4 h-4"></i> Roteiro Reels Interativo
+            </button>
+            <button onclick="switchTab('benefits')" id="tab-benefits" class="tab-btn px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-zinc-800">
+                <i data-lucide="gift" class="w-4 h-4 text-red-500"></i> O "Anzol" dos 9 Benefícios
+            </button>
+            <button onclick="switchTab('traffic')" id="tab-traffic" class="tab-btn px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-zinc-800">
+                <i data-lucide="target" class="w-4 h-4"></i> Tráfego Pago & Mídia
+            </button>
+            <button onclick="switchTab('crm')" id="tab-crm" class="tab-btn px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-zinc-800">
+                <i data-lucide="message-square" class="w-4 h-4"></i> Copywriting & Scripts CRM
+            </button>
+            <button onclick="switchTab('checklist')" id="tab-checklist" class="tab-btn px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-zinc-800">
+                <i data-lucide="check-square" class="w-4 h-4"></i> Checklist de Execução
+            </button>
+        </div>
+
+        <!-- TAB 1: VISÃO GERAL & PILARES -->
+        <div id="content-overview" class="tab-content space-y-6">
+            
+            <!-- Hero Banner - Abreu Motors Silver on Black + G30 Orange -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-black via-zinc-900 to-black border border-zinc-700/60 p-6 md:p-8 shadow-2xl">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
+                <div class="relative z-10 max-w-3xl space-y-3">
+                    <span class="px-3 py-1 bg-orange-500/20 text-orange-400 text-xs rounded-full font-bold uppercase tracking-wider border border-orange-500/40">
+                        Estratégia Comprovada G30 Pro
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-wide">
+                        Festival Abreu Motors 9 Anos: <span class="metallic-silver-text">9 Dias de Ofertas</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed">
+                        Ação de vendas focada em pico de faturamento rápido através de escassez real, justificativa lógica comemorativa e ativação massiva de tráfego pago + base de dados.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Strategic Rationale Triad -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="glass-panel p-5 rounded-xl border-l-4 border-l-orange-500 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
+                        <i data-lucide="clock" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">1. Urgência Real (Scarcity)</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Promoções de 30 dias fazem o cliente adiar a decisão. O prazo limite de <strong>9 dias</strong> gera um gatilho de escassez imediata: se ele não comparecer no período, perderá a oportunidade.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl border-l-4 border-l-slate-300 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-zinc-800 flex items-center justify-center text-slate-200">
+                        <i data-lucide="lightbulb" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">2. Justificativa Lógica</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Consumidores desconfiam de ofertas sem motivo evidente. Celebrar <strong>9 anos de história</strong> traz uma razão justa e festiva para liberar condições comerciais que não ocorrem no resto do ano.
+                    </p>
+                </div>
+
+                <div class="glass-panel p-5 rounded-xl border-l-4 border-l-emerald-500 space-y-3">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-bold text-white text-base">3. Narrativa de Autoridade</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Destacar 9 anos de atuação no mercado automotivo reforça tradição, credibilidade e transparência — fatores decisivos para o comprador de seminovos ter total segurança na troca.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Campaign Timeline & Phases -->
+            <div class="glass-panel p-6 rounded-xl space-y-4">
+                <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                    <i data-lucide="calendar" class="w-5 h-5 text-orange-400"></i>
+                    Linha do Tempo Operacional
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
+                    <!-- Phase 1 -->
+                    <div class="bg-black/60 p-4 rounded-lg border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-sky-400 uppercase tracking-wider">Fase 1 — Teste de Mídia</span>
+                            <span class="text-[11px] bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">10 a 5 dias antes</span>
+                        </div>
+                        <h4 class="font-semibold text-white text-sm">Aquecimento & Validação</h4>
+                        <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                            <li>Subida dos 5+ criativos de teste no tráfego pago</li>
+                            <li>Ajuste e validação dos 2 conjuntos de anúncios</li>
+                            <li>Ambientação festiva do showroom & carros em prata e preto</li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div class="bg-black/60 p-4 rounded-lg border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-orange-400 uppercase tracking-wider">Fase 2 — Pré-Lançamento</span>
+                            <span class="text-[11px] bg-orange-500/10 text-orange-400 px-2 py-0.5 rounded border border-orange-500/20">4 a 1 dia antes</span>
+                        </div>
+                        <h4 class="font-semibold text-white text-sm">Contagem Regressiva & Resgate</h4>
+                        <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                            <li>Contagem regressiva orgânica nas redes sociais</li>
+                            <li>Disparo de mensagens para base inativa (CRM)</li>
+                            <li>Agendamento prévio de visitas para o 1º FDS</li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div class="bg-black/60 p-4 rounded-lg border border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Fase 3 — Execução</span>
+                            <span class="text-[11px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/20">Dia 1 ao Dia 9</span>
+                        </div>
+                        <h4 class="font-semibold text-white text-sm">Pico de Vendas & Prova Social</h4>
+                        <ul class="text-xs text-slate-400 space-y-1.5 list-disc list-inside">
+                            <li>Escala do orçamento de tráfego nos campeões</li>
+                            <li>Postagens em tempo real de clientes e entregas</li>
+                            <li>Anúncio de "Últimas Horas" no 9º e último dia</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ROTEIRO REELS INTERATIVO -->
+        <div id="content-reels" class="tab-content space-y-6 hidden">
+            
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 glass-panel p-5 rounded-xl">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 bg-red-500/20 text-red-400 text-xs font-bold rounded border border-red-500/30">REELS / SHORTS</span>
+                        <h3 class="text-lg font-bold text-white">Roteiro Principal de Aniversário</h3>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Duração Total: 30–45 segundos | Tom: Emocional + Comemorativo + Forte Apelo Comercial</p>
+                </div>
+                <button onclick="copyReelsScript()" class="px-3.5 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-medium flex items-center gap-2 transition-all border border-zinc-700">
+                    <i data-lucide="copy" class="w-4 h-4"></i> Copiar Roteiro Completo
+                </button>
+            </div>
+
+            <!-- Scene Breakdown Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                <!-- Cena 1 -->
+                <div class="bg-black/80 border border-zinc-800 rounded-xl p-5 space-y-3 relative overflow-hidden group hover:border-orange-500/40 transition-all">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span class="font-bold text-orange-400 text-xs uppercase tracking-wider">Cena 1 — Gancho</span>
+                        <span class="text-[11px] bg-zinc-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">0 - 3s</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400"><strong>Visual:</strong> Cortes rápidos de veículos no pátio, equipe comemorando e fachada da loja Abreu Motors.</p>
+                        <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] text-orange-500 font-bold block uppercase">Locução:</span>
+                            <p class="text-sm font-semibold text-white italic">"9 anos de história merecem uma comemoração à altura!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cena 2 -->
+                <div class="bg-black/80 border border-zinc-800 rounded-xl p-5 space-y-3 relative overflow-hidden group hover:border-orange-500/40 transition-all">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span class="font-bold text-orange-400 text-xs uppercase tracking-wider">Cena 2 — Emoção</span>
+                        <span class="text-[11px] bg-zinc-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">3 - 10s</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400"><strong>Visual:</strong> Fotos antigas de entregas, clientes sorrindo e momentos marcantes da trajetória.</p>
+                        <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] text-orange-500 font-bold block uppercase">Locução:</span>
+                            <p class="text-sm font-semibold text-white italic">"São 9 anos realizando sonhos, construindo histórias e conquistando a confiança de milhares de clientes."</p>
+                        </div>
+                        <div class="text-[11px] bg-zinc-800/80 text-slate-200 p-2 rounded border border-slate-400/30 font-medium">
+                            Texto na tela: 9 ANOS DE HISTÓRIA | 9 ANOS DE CONFIANÇA
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cena 3 -->
+                <div class="bg-black/80 border border-zinc-800 rounded-xl p-5 space-y-3 relative overflow-hidden group hover:border-orange-500/40 transition-all">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span class="font-bold text-orange-400 text-xs uppercase tracking-wider">Cena 3 — A Revelação</span>
+                        <span class="text-[11px] bg-zinc-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">10 - 17s</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400"><strong>Visual:</strong> Animação de contagem regressiva de 9 até 1 com corte para vários seminovos em destaque.</p>
+                        <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] text-orange-500 font-bold block uppercase">Locução:</span>
+                            <p class="text-sm font-semibold text-white italic">"E para comemorar, preparamos algo especial para você! Serão 9 DIAS DE OFERTAS na Abreu Motors!"</p>
+                        </div>
+                        <div class="text-[11px] bg-orange-500/10 text-orange-400 p-2 rounded border border-orange-500/20 font-medium">
+                            Texto na tela: 9 DIAS | 9 ANOS | MUITAS OFERTAS!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cena 4 -->
+                <div class="bg-black/80 border border-zinc-800 rounded-xl p-5 space-y-3 relative overflow-hidden group hover:border-orange-500/40 transition-all">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span class="font-bold text-orange-400 text-xs uppercase tracking-wider">Cena 4 — As Ofertas</span>
+                        <span class="text-[11px] bg-zinc-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">17 - 27s</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400"><strong>Visual:</strong> Veículos passando rápido, detalhes de interior/rodas, condições aparecendo na tela.</p>
+                        <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] text-orange-500 font-bold block uppercase">Locução:</span>
+                            <p class="text-sm font-semibold text-white italic">"Durante 9 dias, você vai encontrar oportunidades especiais para escolher o seu próximo veículo! É oferta, é oportunidade e é o momento de sair de carro novo!"</p>
+                        </div>
+                        <div class="text-[11px] bg-orange-500/10 text-orange-400 p-2 rounded border border-orange-500/20 font-medium">
+                            Texto na tela: OFERTAS ESPECIAIS | CARROS SELECIONADOS
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cena 5 -->
+                <div class="bg-black/80 border border-zinc-800 rounded-xl p-5 space-y-3 relative overflow-hidden group hover:border-orange-500/40 transition-all">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span class="font-bold text-orange-400 text-xs uppercase tracking-wider">Cena 5 — Urgência</span>
+                        <span class="text-[11px] bg-zinc-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">27 - 35s</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400"><strong>Visual:</strong> Relógio/Contagem, vendedor apertando a mão do cliente e entregando as chaves.</p>
+                        <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] text-orange-500 font-bold block uppercase">Locução:</span>
+                            <p class="text-sm font-semibold text-white italic">"Mas atenção: são apenas 9 dias! Cada dia pode trazer uma nova oportunidade."</p>
+                        </div>
+                        <div class="text-[11px] bg-red-500/10 text-red-400 p-2 rounded border border-red-500/20 font-medium">
+                            Texto na tela: SÓ 9 DIAS! | NÃO DEIXE PARA DEPOIS!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cena 6 -->
+                <div class="bg-black/80 border border-zinc-800 rounded-xl p-5 space-y-3 relative overflow-hidden group hover:border-orange-500/40 transition-all">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-2">
+                        <span class="font-bold text-orange-400 text-xs uppercase tracking-wider">Cena 6 — CTA Final</span>
+                        <span class="text-[11px] bg-zinc-800 text-slate-300 px-2 py-0.5 rounded-full font-mono">35 - 45s</span>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400"><strong>Visual:</strong> Equipe inteira reunida acenando + carros de fundo + Logotipo da Abreu Motors.</p>
+                        <div class="bg-zinc-950 p-3 rounded-lg border border-zinc-800">
+                            <span class="text-[10px] text-orange-500 font-bold block uppercase">Locução:</span>
+                            <p class="text-sm font-semibold text-white italic">"Abreu Motors, 9 anos realizando sonhos. E agora, chegou a hora de comemorar com você! 9 anos, 9 dias de ofertas. Vem para a Abreu Motors!"</p>
+                        </div>
+                        <div class="text-[11px] bg-emerald-500/10 text-emerald-400 p-2 rounded border border-emerald-500/20 font-medium">
+                            Texto na tela: ABREU MOTORS - 9 ANOS | VEM APROVEITAR!
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 3: O ANZOL DOS 9 BENEFÍCIOS -->
+        <div id="content-benefits" class="tab-content space-y-6 hidden">
+            
+            <div class="glass-panel p-6 rounded-xl space-y-2">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i data-lucide="gift" class="w-5 h-5 text-red-500"></i>
+                    O "Anzol" dos 9 Benefícios Exclusivos
+                </h3>
+                <p class="text-xs text-slate-400">
+                    A estratégia consiste em divulgar o lote com <strong>9 vantagens</strong> durante a campanha. O cliente é atraído pela lista completa e a equipe de vendas negocia os itens prioritários para fechar a proposta:
+                </p>
+            </div>
+
+            <!-- 9 Benefits Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                
+                <!-- Benefício 1 (Vermelho) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-red-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-red-500/20 text-red-400 font-bold text-sm flex items-center justify-center shrink-0 border border-red-500/40 shadow-sm">1</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Tanque Cheio</h4>
+                        <p class="text-xs text-slate-400 mt-1">Gatilho clássico de alto impacto emocional no momento da entrega do seminovo.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 2 (Laranja) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-orange-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-orange-500/20 text-orange-400 font-bold text-sm flex items-center justify-center shrink-0 border border-orange-500/40 shadow-sm">2</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Transferência Grátis</h4>
+                        <p class="text-xs text-slate-400 mt-1">Elimina um custo burocrático imediato que costuma ser objeção de compra.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 3 (Âmbar / Amarelo) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-amber-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 font-bold text-sm flex items-center justify-center shrink-0 border border-amber-500/40 shadow-sm">3</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Primeiras 3 Revisões Grátis</h4>
+                        <p class="text-xs text-slate-400 mt-1">Garante a tranquilidade pós-venda e atesta a procedência mecânica do carro.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 4 (Verde Esmeralda) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-emerald-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-sm flex items-center justify-center shrink-0 border border-emerald-500/40 shadow-sm">4</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Tag de Pedágio com Saldo</h4>
+                        <p class="text-xs text-slate-400 mt-1">Conforto prático para o cliente já sair viajando no final de semana.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 5 (Ciano / Azul Claro) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-cyan-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/20 text-cyan-400 font-bold text-sm flex items-center justify-center shrink-0 border border-cyan-500/40 shadow-sm">5</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">IPVA Pago / Cautelar Aprovada</h4>
+                        <p class="text-xs text-slate-400 mt-1">Reduz o custo total de aquisição e comprova a estrutura 100% regularizada.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 6 (Azul Sky) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-sky-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-sky-500/20 text-sky-400 font-bold text-sm flex items-center justify-center shrink-0 border border-sky-500/40 shadow-sm">6</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Carência na 1ª Parcela</h4>
+                        <p class="text-xs text-slate-400 mt-1">Negociação especial com financeiras para o cliente começar a pagar em 60/90 dias.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 7 (Índigo) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-indigo-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-indigo-500/20 text-indigo-400 font-bold text-sm flex items-center justify-center shrink-0 border border-indigo-500/40 shadow-sm">7</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Taxas Reduzidas de Aniversário</h4>
+                        <p class="text-xs text-slate-400 mt-1">Condição de juros subsidiados exclusiva para o período de 9 dias.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 8 (Roxo / Púrpura) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-purple-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 font-bold text-sm flex items-center justify-center shrink-0 border border-purple-500/40 shadow-sm">8</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Supervalorização do Usado</h4>
+                        <p class="text-xs text-slate-400 mt-1">Bônus de avaliação no seminovo do cliente para facilitar a entrada.</p>
+                    </div>
+                </div>
+
+                <!-- Benefício 9 (Rosa / Magenta) -->
+                <div class="bg-black/80 border border-zinc-800 p-4 rounded-xl flex items-start gap-3 hover:border-pink-500/50 transition-all">
+                    <div class="w-8 h-8 rounded-full bg-pink-500/20 text-pink-400 font-bold text-sm flex items-center justify-center shrink-0 border border-pink-500/40 shadow-sm">9</div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm">Brinde Exclusivo na Entrega</h4>
+                        <p class="text-xs text-slate-400 mt-1">Kit comemorativo de 9 Anos Abreu Motors para reforçar o pertencimento.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 4: TRÁFEGO PAGO & MÍDIA -->
+        <div id="content-traffic" class="tab-content space-y-6 hidden">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- Left Details -->
+                <div class="lg:col-span-2 glass-panel p-6 rounded-xl space-y-5">
+                    <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                        <i data-lucide="target" class="w-5 h-5 text-orange-400"></i>
+                        Parâmetros Obrigatórios de Tráfego Pago
+                    </h3>
+
+                    <div class="space-y-4 text-xs text-slate-300">
+                        <div class="p-4 bg-black/80 rounded-lg border border-zinc-800 space-y-2">
+                            <span class="font-bold text-orange-400 text-sm block">1. Produção de Vídeos (Mínimo 5 Criativos)</span>
+                            <p>Gravar no mínimo 5 variações de vídeos, todos apresentando o lote das <strong>9 vantagens</strong>, variando apenas o ângulo estratégico:</p>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 pt-2">
+                                <span class="bg-zinc-900 p-2 rounded text-center text-slate-300 font-medium border border-zinc-800">1. Visão do Dono</span>
+                                <span class="bg-zinc-900 p-2 rounded text-center text-slate-300 font-medium border border-zinc-800">2. Visão do Pátio/Estoque</span>
+                                <span class="bg-zinc-900 p-2 rounded text-center text-slate-300 font-medium border border-zinc-800">3. Foco na Troca do Usado</span>
+                                <span class="bg-zinc-900 p-2 rounded text-center text-slate-300 font-medium border border-zinc-800">4. Estilo Bastidores UGC</span>
+                                <span class="bg-zinc-900 p-2 rounded text-center text-slate-300 font-medium border border-zinc-800">5. Direto nas Parcelas</span>
+                            </div>
+                        </div>
+
+                        <div class="p-4 bg-black/80 rounded-lg border border-zinc-800 space-y-2">
+                            <span class="font-bold text-sky-400 text-sm block">2. Prazo de Lançamento (10 Dias Antes)</span>
+                            <p>As campanhas precisam entrar no ar no mínimo <strong>10 dias antes</strong> do início oficial da ação de vendas para que o algoritmo otimize os custos e identifique o criativo campeão.</p>
+                        </div>
+
+                        <div class="p-4 bg-black/80 rounded-lg border border-zinc-800 space-y-2">
+                            <span class="font-bold text-emerald-400 text-sm block">3. Estrutura de 2 Conjuntos de Anúncios</span>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                                <div class="bg-zinc-950 p-3 rounded border border-zinc-800">
+                                    <strong class="text-white block">Conjunto 1: Público Aberto</strong>
+                                    <span class="text-slate-400 text-[11px]">Cidade + Raio regional (150-200km) para novos leads.</span>
+                                </div>
+                                <div class="bg-zinc-950 p-3 rounded border border-zinc-800">
+                                    <strong class="text-white block">Conjunto 2: Público Remarketing (MKT)</strong>
+                                    <span class="text-slate-400 text-[11px]">Engajadores do IG/FB, visitantes do site e base de leads.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Chart -->
+                <div class="glass-panel p-6 rounded-xl flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-white text-base mb-2">Distribuição de Verba Sugerida</h4>
+                        <p class="text-xs text-slate-400 mb-4">Divisão estratégica do orçamento de anúncios durante o ciclo da campanha.</p>
+                    </div>
+                    <div class="h-64 flex items-center justify-center">
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="text-[11px] text-slate-400 text-center mt-4">
+                        *Foco na atração de topo de funil no teste e escala agressiva de retargeting durante os 9 dias.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 5: COPYWRITING & SCRIPTS CRM -->
+        <div id="content-crm" class="tab-content space-y-6 hidden">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Instagram Caption -->
+                <div class="glass-panel p-6 rounded-xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i data-lucide="instagram" class="w-5 h-5 text-orange-400"></i>
+                            Legenda Pronta para Instagram
+                        </h3>
+                        <button onclick="copyText('insta-caption')" class="px-2.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-xs font-medium flex items-center gap-1.5">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar
+                        </button>
+                    </div>
+
+                    <div id="insta-caption" class="bg-black/90 p-4 rounded-lg border border-zinc-800 text-xs text-slate-300 space-y-3 font-mono leading-relaxed whitespace-pre-line">
+🎉 9 ANOS DE ABREU MOTORS! E A COMEMORAÇÃO VAI SER DO JEITO QUE VOCÊ GOSTA!
+
+Para celebrar essa história construída junto com nossos clientes, preparamos uma campanha especial:
+
+🔥 9 ANOS = 9 DIAS DE OFERTAS!
+
+Serão 9 dias de oportunidades para você encontrar o veículo que sempre quis e aproveitar condições especiais.
+
+⚠️ Mas fique ligado: é por tempo limitado! A cada dia, uma nova oportunidade pode estar esperando por você.
+
+✅ São 9 anos de história.
+✅ 9 anos de confiança.
+🚀 E agora, 9 dias para você aproveitar!
+
+ABREU MOTORS - 9 ANOS REALIZANDO SONHOS.
+📲 Chame a nossa equipe no Direct ou link da bio e acompanhe as ofertas!
+
+#AbreuMotors #9AnosAbreuMotors #9DiasDeOfertas #AniversarioAbreuMotors #Feirao #SeminovosRibeirao
+                    </div>
+                </div>
+
+                <!-- Active Sales Script CRM -->
+                <div class="glass-panel p-6 rounded-xl space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="font-bold text-white text-base flex items-center gap-2">
+                            <i data-lucide="phone-call" class="w-5 h-5 text-emerald-400"></i>
+                            Script de Ativação de Base (CRM / WhatsApp)
+                        </h3>
+                        <button onclick="copyText('whatsapp-script')" class="px-2.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded text-xs font-medium flex items-center gap-1.5">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar
+                        </button>
+                    </div>
+
+                    <div class="space-y-3">
+                        <p class="text-xs text-slate-400">Use este script para ligações e disparos ativos do time de vendas para clientes inativos da base:</p>
+                        
+                        <div id="whatsapp-script" class="bg-black/90 p-4 rounded-lg border border-zinc-800 text-xs text-slate-300 font-mono leading-relaxed whitespace-pre-line">
+"Olá, [Nome do Cliente]! Tudo bem? Aqui é o [Nome do Vendedor] da Abreu Motors. 
+
+Estou te mandando essa mensagem porque a nossa loja está completando 9 Anos de história nesta semana! 🎉
+
+Para comemorar, liberamos um lote de 9 vantagens e condições exclusivas de financiamento que só vão durar exatos 9 dias. 
+
+Lembrei imediatamente de você e do [Modelo do Carro] que você cotou com a gente! Consegue passar aqui na loja hoje ou amanhã para tomar um café e conferir essas condições especiais de aniversário antes que o estoque vire?"
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 6: CHECKLIST DE EXECUÇÃO -->
+        <div id="content-checklist" class="tab-content space-y-6 hidden">
+            
+            <div class="glass-panel p-6 rounded-xl space-y-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-bold text-white text-lg flex items-center gap-2">
+                            <i data-lucide="check-square" class="w-5 h-5 text-orange-400"></i>
+                            Checklist de Prontidão da Campanha
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-1">Marque os itens à medida que forem sendo concluídos pela equipe.</p>
+                    </div>
+                    <span id="checklist-progress" class="text-xs font-bold bg-orange-500/20 text-orange-400 px-3 py-1 rounded-full border border-orange-500/30">
+                        0 / 8 Concluídos
+                    </span>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Gravação dos 5+ vídeos de criativos com ângulos variados</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Publicação e subida dos anúncios pagos com no mínimo 10 dias de antecedência</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Configuração dos 2 Conjuntos de Anúncios (Aberto vs. Remarketing MKT)</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Ambientação do Showroom: Faixas prateadas/pretas, balões e comunicação dos 9 Anos</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Treinamento do time comercial sobre a negociação dos 9 Benefícios</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Revisão do SLA de atendimento dos vendedores (Resposta &lt; 30 segundos)</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Disparo da cadência de resgate de base inativa no CRM via WhatsApp</span>
+                    </label>
+
+                    <label class="flex items-center gap-3 p-3 bg-black/60 rounded-lg border border-zinc-800 cursor-pointer hover:bg-zinc-900 transition-all">
+                        <input type="checkbox" onchange="updateChecklistProgress()" class="chk-item w-4 h-4 rounded accent-orange-500 bg-zinc-950 border-zinc-700">
+                        <span class="text-slate-200">Programação do anúncio de "Últimas Horas" para o 9º dia da ação</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer with G30 & Abreu Motors Attribution -->
+    <footer class="mt-auto border-t border-zinc-800/80 bg-black/90 py-6 px-4 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-2 bg-zinc-950 px-3 py-1.5 rounded-lg border border-orange-500/30">
+                    <span class="text-slate-400 font-medium">Dashboard criado por:</span>
+                    <img src="https://raw.githubusercontent.com/G30IA/calendarg30/7d28818d56a083747954bcda3210caabfe50a08f/logog30.png" alt="G30 Inteligência Automotiva" class="h-5 object-contain" onerror="this.style.display='none'">
+                    <span class="font-bold text-orange-400">G30 PRO</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <span>Campanha Exclusiva para</span>
+                <a href="https://www.instagram.com/_abreumotors" target="_blank" class="font-bold text-slate-200 hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                    <i data-lucide="instagram" class="w-3.5 h-3.5 text-orange-400"></i> @_abreumotors
+                </a>
+            </div>
+
+            <div class="text-slate-500 text-[11px]">
+                © 2026 G30 Aceleração Automotiva & Inteligência. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-orange-500 text-slate-950 px-4 py-2.5 rounded-lg text-xs font-bold shadow-xl transition-all opacity-0 translate-y-5 pointer-events-none flex items-center gap-2">
+        <i data-lucide="check-circle" class="w-4 h-4"></i>
+        <span id="toast-message">Texto copiado para a área de transferência!</span>
+    </div>
+
+    <!-- Application Logic Script -->
+    <script>
+        // Initialize Lucide Icons
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initChart();
+        });
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-orange-500', 'text-slate-950', 'shadow-md');
+                btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-zinc-800');
+            });
+
+            // Show target content
+            const targetContent = document.getElementById('content-' + tabId);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+            }
+
+            // Activate target tab button
+            const targetBtn = document.getElementById('tab-' + tabId);
+            if (targetBtn) {
+                targetBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-zinc-800');
+                targetBtn.classList.add('bg-orange-500', 'text-slate-950', 'shadow-md');
+            }
+        }
+
+        // Copy Helper function
+        function copyText(elementId) {
+            const el = document.getElementById(elementId);
+            if (el) {
+                navigator.clipboard.writeText(el.innerText).then(() => {
+                    showToast('Texto copiado com sucesso!');
+                });
+            }
+        }
+
+        function copyReelsScript() {
+            const fullScript = `
+ROTEIRO REELS - ABREU MOTORS (9 ANOS / 9 DIAS DE OFERTAS)
+
+CENA 1 (0-3s) - Locução: "9 anos de história merecem uma comemoração à altura!"
+CENA 2 (3-10s) - Locução: "São 9 anos realizando sonhos, construindo histórias e conquistando a confiança de milhares de clientes."
+CENA 3 (10-17s) - Locução: "E para comemorar, preparamos algo especial para você! Serão 9 DIAS DE OFERTAS na Abreu Motors!"
+CENA 4 (17-27s) - Locução: "Durante 9 dias, você vai encontrar oportunidades especiais para escolher o seu próximo veículo! É oferta, é oportunidade e é o momento de sair de carro novo!"
+CENA 5 (27-35s) - Locução: "Mas atenção: são apenas 9 dias! Cada dia pode trazer uma nova oportunidade."
+CENA 6 (35-45s) - Locução: "Abreu Motors, 9 anos realizando sonhos. E agora, chegou a hora de comemorar com você! 9 anos, 9 dias de ofertas. Vem para a Abreu Motors!"
+            `.trim();
+
+            navigator.clipboard.writeText(fullScript).then(() => {
+                showToast('Roteiro completo copiado!');
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = message;
+
+            toast.classList.remove('opacity-0', 'translate-y-5', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-5', 'pointer-events-none');
+            }, 3000);
+        }
+
+        // Update Checklist Counter
+        function updateChecklistProgress() {
+            const items = document.querySelectorAll('.chk-item');
+            let checked = 0;
+            items.forEach(item => {
+                if (item.checked) checked++;
+            });
+            const counter = document.getElementById('checklist-progress');
+            counter.innerText = `${checked} / ${items.length} Concluídos`;
+        }
+
+        // Chart.js Setup
+        function initChart() {
+            const ctx = document.getElementById('trafficChart');
+            if (!ctx) return;
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Fase de Teste (10 dias antes)', 'Remarketing Quente (9 Dias)', 'Público Aberto Regional'],
+                    datasets: [{
+                        data: [25, 45, 30],
+                        backgroundColor: [
+                            '#38bdf8',
+                            '#ff5500',
+                            '#10b981'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#94a3b8',
+                                font: {
+                                    size: 11
+                                },
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+    </script>
+</body>
+</html>
